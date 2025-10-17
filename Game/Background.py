@@ -20,7 +20,6 @@ class Background(Movable):
             offsetX += background.width
 
 
-
     def draw(self):
         for background in self.background:
             background.draw()
