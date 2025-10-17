@@ -1,12 +1,11 @@
 ﻿from pgzero.actor import Actor
 
+from Game import Speed_config
 from Game.Character import Character
 from Game.Movable import Movable
 
 
 class Background(Movable):
-
-    Speed_modifier = 7
 
     def __init__(self, offsetY):
         self.background = [
@@ -26,6 +25,6 @@ class Background(Movable):
         for background in self.background:
             background.draw()
 
-    def move(self):
+    def move(self, direction):
         for background in self.background:
-            background.x -= Character.Speed / self.Speed_modifier
+            background.x -= Character.Speed / Speed_config.Background_speed_modifier * direction

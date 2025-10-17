@@ -1,12 +1,15 @@
 ﻿from pgzero.actor import Actor
 
+from Game import Speed_config
 from Game.Character import Character
 from Game.Movable import Movable
 
 
-class Sky(Movable):
+class SpeedConfig_S:
+    pass
 
-    Speed_modifier = 20
+
+class Sky(Movable):
 
     def __init__(self):
         self.sky = Actor("sky/day")
@@ -16,5 +19,5 @@ class Sky(Movable):
         self.sky.draw()
         self.cloud.draw()
 
-    def move(self):
-        self.cloud.x -= Character.Speed/self.Speed_modifier
+    def move(self, _):
+        self.cloud.x -= Character.Speed/Speed_config.Sky_speed_modifier

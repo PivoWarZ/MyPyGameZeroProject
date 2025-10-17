@@ -22,6 +22,6 @@ class Ground(Movable):
     def GetGroundHeight(self):
         return self.ground.height
 
-    def move(self):
-        self.ground.x -= Character.Speed
-        self.grass.x -= Character.Speed
+    def move(self, direction):
+        self.ground.x -= Character.Speed * direction
+        self.grass.x -= Character.Speed * direction

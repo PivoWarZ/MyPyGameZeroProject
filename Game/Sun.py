@@ -1,5 +1,6 @@
 ﻿from pgzero.actor import Actor
 
+from Game import Speed_config
 from Game.Character import Character
 from Game.GameWindow import GameWindow
 from Game.Movable import Movable
@@ -7,7 +8,6 @@ from Game.Movable import Movable
 
 class Sun(Movable):
 
-    Speed_modifier = 40
     offset = 20
 
     def __init__(self):
@@ -17,5 +17,5 @@ class Sun(Movable):
     def draw(self):
         self.sun.draw()
 
-    def move(self):
-        self.sun.x -= Character.Speed / self.Speed_modifier
+    def move(self, _):
+        self.sun.x -= Character.Speed / Speed_config.Sun_speed_modifier

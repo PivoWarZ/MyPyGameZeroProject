@@ -22,6 +22,23 @@ character = Character(background_offset)
 
 mover = Mover( sky, ground, background, sun)
 
+direction = 0
+
+def on_key_down(key):
+
+    global direction
+
+    if key == keys.RIGHT:
+        direction = 1
+    elif key == keys.LEFT:
+        direction = -1
+
+def on_key_up(key):
+
+    global direction
+
+    direction = 0
+
 def draw():
     sky.draw()
     background.draw()
@@ -30,7 +47,7 @@ def draw():
     character.draw()
 
 def update():
-    mover.move()
+    mover.move(direction)
 
 
 

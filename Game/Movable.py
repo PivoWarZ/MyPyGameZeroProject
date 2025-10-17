@@ -2,5 +2,5 @@
 
 class Movable(ABC):
     @abstractmethod
-    def move(self):
+    def move(self, direction):
         pass
