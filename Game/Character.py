@@ -5,7 +5,7 @@ from pgzero.actor import Actor
 
 class Character:
 
-    Speed = 3
+    Speed = 55
     PositionX = 30
 
     def __init__(self, positionY):
