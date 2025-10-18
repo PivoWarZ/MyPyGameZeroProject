@@ -19,7 +19,6 @@ class Background(Movable):
             background.bottomleft = (offsetX, offsetY)
             offsetX += background.width
 
-
     def draw(self):
         for background in self.background:
             background.draw()
