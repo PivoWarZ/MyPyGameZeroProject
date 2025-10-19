@@ -34,6 +34,9 @@ class Ground(Movable):
     def GetGroundHeight(self):
         return self.grounds[0].height
 
+    def GetGround(self):
+        return self.grounds
+
     def move(self, direction):
         Helpers.moving(self.move_function, direction, True, self.grounds, self.grass)
 
