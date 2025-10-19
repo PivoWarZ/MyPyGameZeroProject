@@ -1,10 +1,8 @@
 ﻿import os
-
-from Game.Gravity import Gravity
-
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 import pgzrun
+from Game.Gravity import Gravity
 from Game.Background import Background
 from Game.Character import Character
 from Game.GameWindow import GameWindow
@@ -15,21 +13,18 @@ from Game.Sun import Sun
 
 TITLE, WIDTH, HEIGHT = GameWindow().GetWindowParametres
 
+direction = 0
 sky = Sky()
 ground = Ground()
+sun = Sun()
 
 background_offset = HEIGHT - ground.GetGroundHeight
 background = Background(background_offset)
 
-sun = Sun()
-
 character = Character(background_offset)
-
 mover = Mover( sky, ground, background, sun)
+gravity = Gravity(ground.GetGround(), character)
 
-direction = 0
-
-gravity = Gravity(ground.GetGround(), character.character())
 
 def on_key_down(key):
     if key == key.SPACE:
@@ -48,11 +43,11 @@ def draw():
     sun.draw()
     character.draw()
 
-def update():
-    character.tick()
+def update(dt):
     move_input()
     mover.move(direction)
     gravity.tick()
+    character.tick(dt, direction)
 
 
 def move_input():
