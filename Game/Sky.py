@@ -24,7 +24,7 @@ class Sky(Movable):
         Helpers.drawning(self.sky, self.cloud)
 
     def move(self, _):
-        Helpers.moving(self.move_function, _, False, self.cloud)
+        Helpers.moving(self.move_function, _, False, False, self.cloud)
 
     def move_function(self, movable, _):
         movable.x -= Character.Speed / Speed_config.Sky_speed_modifier

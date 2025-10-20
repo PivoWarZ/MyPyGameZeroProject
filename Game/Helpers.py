@@ -22,10 +22,13 @@ def set_start_position(positionY, isTopLeftAnchor=False, *args):
             is_first = False
 
 
-def moving(move_function, direction, is_addeble=False, *args):
+def moving(move_function, direction, is_addeble=False, is_static =False, *args):
     for actors in args:
         for movable in actors:
             move_function(movable, direction)
+
+            if is_static:
+                continue
 
             if movable.topright[0] > 0:
                 continue

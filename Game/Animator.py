@@ -1,12 +1,29 @@
 ﻿from pgzero.actor import Actor
 
 
-def animate(actor, animation_time, animation_speed, delta_time):
-    animation_time += delta_time
-    if animation_time > animation_speed:
-        animation_time = 0
-        index = actor.sprite.image.split("/")[-1]
-        number = int(index.split(".")[0])
-        next_sprite_number = (number + 1) % 5
-        actor.sprite = Actor("character/idle/" + str(next_sprite_number) + ".png")
-        actor.sprite.bottomleft = (self.PositionX, self.positionY + 7)
+def animate(actor: Actor, path, is_loop=True):
+    position = actor.center
+    first_sprite = f"{path}/0.png"
+    current_path = "/".join(actor.image.split("/")[:-1])
+    #print(actor.image)
+    #print(f"path: {path}")
+    #print(f"first_sprite: {first_sprite}")
+    #print(f"Current path: {current_path}")
+
+    if current_path != path:
+        actor = Actor(first_sprite)
+        actor.center = (position[0], position[1])
+        return actor
+
+    index = actor.image.split("/")[-1]
+    number = int(index.split(".")[0])
+
+    next_sprite_number = (number + 1) % 5
+
+    if not is_loop and next_sprite_number == 0:
+        next_sprite_number = 4
+
+    actor = Actor(f"{path}/{str(next_sprite_number)}.png")
+    actor.center = (position[0], position[1])
+    return actor
+

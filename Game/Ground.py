@@ -38,7 +38,7 @@ class Ground(Movable):
         return self.grounds
 
     def move(self, direction):
-        Helpers.moving(self.move_function, direction, True, self.grounds, self.grass)
+        Helpers.moving(self.move_function, direction, True, False, self.grounds, self.grass)
 
     def drawning(self, actors):
         for actor in actors:
