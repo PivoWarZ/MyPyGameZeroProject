@@ -1,6 +1,7 @@
 ﻿from pgzero.actor import Actor
 
-from Game import Animator
+from Game import Animator, Helpers
+from Game.Weapon import Weapon
 
 
 class Character:
@@ -19,9 +20,13 @@ class Character:
         self.starting_point = 0
         self.animate_time = 0
         self.animation_speed = 0.1
+        self.weapon = Weapon("splash")
 
     def draw(self):
         self.sprite.draw()
+
+        if self.is_attack:
+            self.weapon.draw(self.sprite)
 
     def jump(self):
         self.is_jump = True
@@ -33,11 +38,13 @@ class Character:
         if self.is_attack:
             path = "character/attack"
             self.sprite = Animator.animate(self.sprite, path)
-            print(f"is attack: {self.is_attack}")
-            sprite_count = self.get_sprite_number(self.sprite)
+            self.weapon.shoot()
+            sprite_count = Helpers.get_sprite_number(self.sprite)
             self.is_attack = sprite_count  < 4 and self.is_attack == True
-            print(f"sprite count: {sprite_count}, sprite number: {self.get_sprite_number(self.sprite)}")
-            print(self.is_attack)
+
+            if not self.is_attack:
+                self.weapon.reload()
+
             self.animate_time = 0
             return
 
@@ -68,11 +75,6 @@ class Character:
         if direction != 0:
             path = "character/run"
             self.sprite = Animator.animate(self.sprite, path)
-
-    def get_sprite_number(self, actor):
-        index = actor.image.split("/")[-1]
-        number = int(index.split(".")[0])
-        return int(number)
 
     def attack(self):
         self.is_attack = True

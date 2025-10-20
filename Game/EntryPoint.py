@@ -42,7 +42,6 @@ def on_key_down(key):
 def on_mouse_down(pos, button):
     if button == mouse.LEFT:
         character.attack()
-        print("attack")
 
 def on_key_up(key):
 

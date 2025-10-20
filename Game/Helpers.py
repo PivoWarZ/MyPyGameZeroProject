@@ -50,3 +50,8 @@ def drawning(*args):
     for arg in args:
         for actor in arg:
             actor.draw()
+
+def get_sprite_number(actor : Actor):
+    index = actor.image.split("/")[-1]
+    number = int(index.split(".")[0])
+    return int(number)
