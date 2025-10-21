@@ -40,7 +40,6 @@ def moving(move_function, direction, is_addeble=False, is_static =False, *args):
                 continue
 
             if is_addeble and movable is actors[-2]:
-                actor_path = f"{movable.image}"
                 new_actor = Actor(movable.image)
                 actors.append(new_actor)
                 new_actor.topleft = (max_right, movable.topleft[1])

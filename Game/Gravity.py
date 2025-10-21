@@ -1,7 +1,7 @@
 ﻿from pgzero.actor import Actor
 class Gravity:
 
-    GravityForce = 7
+    GravityForce = 10
     def __init__(self, ground_objects, *args):
         self.gravity_objects = args
         self.ground_objects = ground_objects

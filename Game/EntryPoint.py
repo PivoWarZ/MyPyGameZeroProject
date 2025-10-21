@@ -22,7 +22,7 @@ TITLE, WIDTH, HEIGHT = GameWindow().GetWindowParametres
 direction = 0
 sky = Sky()
 ground = Ground()
-sun = Sun()
+sun = Sun(sky)
 
 ground_offset = HEIGHT - ground.GetGroundHeight
 background = Background(ground_offset)
@@ -33,7 +33,7 @@ obstructions = Obstructions(ground_offset)
 gravity = Gravity(ground.GetGround(), character)
 mover = Mover( sky, ground, background, sun, obstructions)
 
-on_collision_entered = OnCollisionEntered(obstructions.get_obstructions())
+on_collision_entered = OnCollisionEntered(obstructions)
 
 
 def on_key_down(key):
@@ -65,15 +65,16 @@ def update(dt):
 
     gravity.tick()
     character.tick(dt, direction)
-    on_collision_entered.tick(character.get_current_actor())
+    obstructions.tick(dt)
+    on_collision_entered.tick(character.get_current_actor(), character.get_weapon())
 
 
 def move_input():
     global direction
 
-    if keyboard.RIGHT:
+    if keyboard.RIGHT or keyboard.D:
         direction = 1
-    elif keyboard.LEFT:
+    elif keyboard.LEFT or keyboard.A:
         direction = -1
 
 

@@ -13,7 +13,6 @@ class Weapon():
     def shoot(self):
         self.actor = Animator.animate(self.actor, self.path, False)
         number = Helpers.get_sprite_number(self.actor)
-        print(number)
 
     def draw(self, sprite : Actor):
         self.actor.midleft = sprite.center
@@ -21,4 +20,7 @@ class Weapon():
 
     def reload(self):
         self.actor = Actor(f"{self.path}/0.png")
+
+    def get_current_weapon(self):
+        return self.actor
 

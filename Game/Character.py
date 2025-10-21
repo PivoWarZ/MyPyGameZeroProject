@@ -6,7 +6,7 @@ from Game.Weapon import Weapon
 
 class Character:
 
-    Speed = 20
+    Speed = 30
     PositionX = 30
     JumpForce = 500
 
@@ -81,5 +81,8 @@ class Character:
 
     def can_move(self):
         return not self.is_attack
+
+    def get_weapon(self):
+        return self.weapon.get_current_weapon()
 
 

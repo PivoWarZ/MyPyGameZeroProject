@@ -12,19 +12,29 @@ class Sky(Movable):
             Actor("sky/day"),
         ]
 
-        self.cloud = [
+        self.clouds = [
             Actor("sky/cloud"),
             Actor("sky/cloud"),
             Actor("sky/cloud"),
         ]
 
-        Helpers.set_start_position(0, True, self.sky, self.cloud)
+        Helpers.set_start_position(0, True, self.sky, self.clouds)
 
     def draw(self):
-        Helpers.drawning(self.sky, self.cloud)
+        Helpers.drawning(self.sky, self.clouds)
 
     def move(self, _):
-        Helpers.moving(self.move_function, _, False, False, self.cloud)
+        Helpers.moving(self.move_function, _, False, False, self.clouds)
 
     def move_function(self, movable, _):
         movable.x -= Character.Speed / Speed_config.Sky_speed_modifier
+
+    def switcher (self, is_day):
+        if not is_day:
+            self.sky[0].image = "sky/night"
+            for cloud in self.clouds:
+                cloud.image = "sky/cloudnight"
+        else:
+            self.sky[0].image = "sky/day"
+            for cloud in self.clouds:
+                cloud.image = "sky/cloud"
