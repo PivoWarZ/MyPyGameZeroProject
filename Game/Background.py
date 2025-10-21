@@ -27,7 +27,7 @@ class Background(Movable):
             Actor("background/2.png")
         ]
 
-        offsetX = 0
+        offsetX = 1920
 
         for background in self.background:
             background.bottomleft = (offsetX, offsetY)

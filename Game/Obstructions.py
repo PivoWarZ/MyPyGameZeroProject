@@ -3,28 +3,52 @@
 from Game import Helpers
 from Game.Character import Character
 from Game.Enemy import Enemy
-from Game.GameWindow import GameWindow
+from Game.GameWindow_config import GameWindow
 from Game.Movable import Movable
 
 
 class Obstructions(Movable):
     def __init__(self, positionY):
-        self.obstructions = {
-            0: {"actor": Enemy("orc", False), "hit_points": 3},
-            1: {"actor": Enemy("obstructions", True), "hit_points": 2}
-        }
-        self.killed_count = 0
-        self.obstructions[0]["actor"].set_position(GameWindow.Width / 2, positionY)
-        self.obstructions[1]["actor"].set_position(GameWindow.Width, positionY)
+        self.positionY = positionY
+        self.obstructions = [
+
+            Enemy("obstructions", 3,(800, positionY),True),
+            Enemy("obstructions", 3, (1800, positionY), True),
+            Enemy("obstructions", 3, (2800, positionY), True),
+
+            Enemy("orc", 10, (4800, positionY), False),
+            Enemy("orc", 10, (6800, positionY), False),
+
+            Enemy("platforms/1", 10000, (8000, 850), True),
+            Enemy("platforms/1", 10000, (8380, 850), True),
+            Enemy("platforms/1", 10000, (8760, 850), True),
+            Enemy("platforms/1", 10000, (9140, 850), True),
+
+            Enemy("orc", 10, (11140, positionY), False),
+            Enemy("orc", 10, (13140, positionY), False),
+
+            Enemy("platforms/2", 10000, (15000, 850), True),
+            Enemy("platforms/2", 10000, (15380, 850), True),
+            Enemy("platforms/2", 10000, (15760, 850), True),
+            Enemy("platforms/2", 10000, (16140, 850), True),
+
+            Enemy("orc", 10, (20000, positionY), False),
+            Enemy("orc", 10, (22000, positionY), False),
+
+            Enemy("obstructions", 3, (23000, positionY), True),
+            Enemy("obstructions", 3, (24000, positionY), True),
+            Enemy("obstructions", 3, (24500, positionY), True),
+
+
+        ]
+
 
     def draw(self):
-        visibles = self.get_obstructions()
-        for visible in visibles:
-            visible.draw()
+        for visible in self.obstructions:
+            visible.get_actor().draw()
 
     def move(self, direction):
-        move_list = self.get_enemies()
-        for mover in move_list:
+        for mover in self.obstructions:
             move_function = mover.get_move_function()
             movable = mover.get_actor()
             move_function(movable, direction)
@@ -33,28 +57,17 @@ class Obstructions(Movable):
          movable.x -= Character.Speed * direction
 
     def tick(self, dt):
-        for tickable in self.get_enemies():
+        for tickable in self.obstructions:
             tickable.tick(dt)
 
     def get_obstructions(self):
-        list = []
-        for obstruction in self.obstructions.values():
-            sprite = obstruction["actor"].get_actor()
-            list.append(sprite)
-        return list
+        enemies = []
+        for obstruction in self.obstructions:
+            enemies.append(obstruction.get_actor())
+        return enemies
 
-    def get_enemies(self):
-        list = []
-        for obstruction in self.obstructions.values():
-            sprite = obstruction["actor"]
-            list.append(sprite)
-        return list
     def take_damage(self, actor_index):
-        print(actor_index, self.killed_count)
-        damageable = self.obstructions[actor_index + self.killed_count]
-        damageable["hit_points"] -= 1
-        hit_points = damageable["hit_points"]
+        damageable = self.obstructions[actor_index]
+        hit_points = damageable.take_damage()
         if hit_points <= 0:
-            del self.obstructions[actor_index + self.killed_count]
-            self.killed_count += 1
-        print(f"damage {actor_index} : HIT points {damageable['hit_points']}")
+            del self.obstructions[actor_index]

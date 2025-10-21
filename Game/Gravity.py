@@ -1,15 +1,20 @@
-﻿from pgzero.actor import Actor
-class Gravity:
+﻿class Gravity:
 
     GravityForce = 10
-    def __init__(self, ground_objects, *args):
-        self.gravity_objects = args
-        self.ground_objects = ground_objects
-    def tick(self):
-        for object in self.gravity_objects:
-            current_gravity_object = object.get_current_actor()
-            if current_gravity_object.collidelist(self.ground_objects) == -1:
-                current_gravity_object.y += self.GravityForce
+    def __init__(self,  *args):
+        self.characters = args
+    def tick(self, ground_objects):
+        for character in self.characters:
+            actor = character.get_current_actor()
+            contact_points = 0
+            for ground in ground_objects:
+                if ground.collidepoint(actor.midbottom):
+                    contact_points += 1
+            if contact_points == 0:
+                actor.y += self.GravityForce
+
+
+
 
 
 

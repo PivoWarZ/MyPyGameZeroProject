@@ -1,14 +1,20 @@
-﻿from pgzero.actor import Actor
+﻿
+
+from pgzero.actor import Actor
+from pgzero.loaders import sounds
 
 from Game import Animator, Helpers
+from Game.HealthComponent import HealthComponent
+from Game.SoundManager import sound_manager
 from Game.Weapon import Weapon
 
 
 class Character:
 
-    Speed = 30
+    Speed = 20
     PositionX = 30
     JumpForce = 500
+    Health_Point = 10
 
     def __init__(self, positionY):
         self.sprite = Actor("character/idle/0.png")
@@ -21,9 +27,12 @@ class Character:
         self.animate_time = 0
         self.animation_speed = 0.1
         self.weapon = Weapon("splash")
+        self.health_component = HealthComponent("heart", self.Health_Point)
+        self.is_sound = False
 
     def draw(self):
         self.sprite.draw()
+        self.health_component.print_hearts()
 
         if self.is_attack:
             self.weapon.draw(self.sprite)
@@ -58,6 +67,8 @@ class Character:
             self.is_jump = self.jumped()
             self.animate_time = 0
 
+        self.play_steps(direction)
+
     def get_current_actor(self):
         return self.sprite
 
@@ -79,10 +90,35 @@ class Character:
     def attack(self):
         self.is_attack = True
 
-    def can_move(self):
-        return not self.is_attack
+        if sound_manager.on_sound:
+            self.play_sword()
+
+    def can_move(self, direction):
+        if  not self.health_component.is_alive:
+            return False
+        return True
 
     def get_weapon(self):
         return self.weapon.get_current_weapon()
 
+    def is_alive(self):
+        return self.health_component.is_alive
+
+    def take_damage(self):
+        self.health_component.take_damage()
+
+    def play_steps(self, direction):
+
+        if not sound_manager.on_sound:
+            return
+
+        if direction != 0 and not self.is_sound:
+            sounds.run.play()
+            self.is_sound = True
+        elif direction == 0:
+            sounds.run.stop()
+            self.is_sound = False
+
+    def play_sword(self):
+        sounds.sword.play()
 

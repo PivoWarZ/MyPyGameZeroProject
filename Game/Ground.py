@@ -2,7 +2,7 @@
 
 from Game import Helpers
 from Game.Character import Character
-from Game.GameWindow import GameWindow
+from Game.GameWindow_config import GameWindow
 from Game.Movable import Movable
 
 
@@ -16,6 +16,7 @@ class Ground(Movable):
             Actor("ground/road"),
             Actor("ground/road"),
             Actor("ground/road")
+
         ]
 
         self.grass = [

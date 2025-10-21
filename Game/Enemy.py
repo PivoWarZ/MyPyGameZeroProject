@@ -1,11 +1,12 @@
-﻿from pgzero.actor import Actor
+﻿from pgzero import clock
+from pgzero.actor import Actor
 
 from Game import Animator
 from Game.Character import Character
 
 
 class Enemy():
-    def __init__(self, path, hit_points, isStatic = True, sprite_count = 10):
+    def __init__(self, path, hit_points, position, isStatic = True, sprite_count = 10):
         self.sprite = Actor(f"{path}/0.png")
         self.hit_points = hit_points
         self.sprite_count = sprite_count
@@ -18,6 +19,9 @@ class Enemy():
         self.animation_speed = 0.1
         self.direction = 1
         self.speed = 10
+
+        if position:
+            self.set_position(position[0], position[1])
 
     def tick(self, dt):
         if self.is_static:
@@ -37,10 +41,14 @@ class Enemy():
             return new_path
         return self.path
 
-    def take_damage(self, damage):
-        self.hit_points -= damage
+    def take_damage(self):
+        self.hit_points -= 1
+        self.speed = 0
+        clock.schedule_unique(self.run, 0.1)
         return self.hit_points
 
+    def run(self):
+        self.speed = 10
     def get_actor(self):
         return self.sprite
 

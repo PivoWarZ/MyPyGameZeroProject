@@ -2,7 +2,7 @@
 
 from Game import Speed_config, Helpers
 from Game.Character import Character
-from Game.GameWindow import GameWindow
+from Game.GameWindow_config import GameWindow
 from Game.Movable import Movable
 from Game.Sky import Sky
 
