@@ -1,11 +1,5 @@
-﻿from pgzero.clock import clock
-
-from Game.Character import Character
-from Game.Obstructions import Obstructions
-
-
-class OnCollisionEntered:
-    def __init__(self, character: Character, obstructions : Obstructions):
+﻿class OnCollisionEntered:
+    def __init__(self, character, obstructions):
         self.obstructions = obstructions
         self.collision_counter = 30
         self.weapon_collision_counter = 3

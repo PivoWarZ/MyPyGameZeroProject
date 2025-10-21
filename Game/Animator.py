@@ -5,10 +5,6 @@ def animate(actor: Actor, path, is_loop=True, sprite_count=5):
     position = actor.center
     first_sprite = f"{path}/0.png"
     current_path = "/".join(actor.image.split("/")[:-1])
-    #print(actor.image)
-    #print(f"path: {path}")
-    #print(f"first_sprite: {first_sprite}")
-    #print(f"Current path: {current_path}")
 
     if current_path != path:
         actor = Actor(first_sprite)

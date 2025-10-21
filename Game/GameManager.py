@@ -8,4 +8,7 @@
     def start_game(self):
         self.game_state = 1
 
+    def game_over(self):
+        self.game_state = 2
+
 game_manager = GameManager()

@@ -4,6 +4,7 @@ from pgzero.actor import Actor
 from pgzero.loaders import sounds
 
 from Game import Animator, Helpers
+from Game.GameManager import game_manager
 from Game.HealthComponent import HealthComponent
 from Game.SoundManager import sound_manager
 from Game.Weapon import Weapon
@@ -38,8 +39,11 @@ class Character:
             self.weapon.draw(self.sprite)
 
     def jump(self):
-        self.is_jump = True
-        self.starting_point = 0
+        from Game.EntryPoint import gravity
+        print(gravity.is_ground(self.sprite))
+        if gravity.is_ground(self.sprite):
+            self.is_jump = True
+            self.starting_point = 0
 
     def tick(self, dt, direction=0):
         self.animate_time += dt
@@ -66,6 +70,13 @@ class Character:
             self.sprite = Animator.animate(self.sprite, path, False)
             self.is_jump = self.jumped()
             self.animate_time = 0
+
+        if not self.health_component.is_alive:
+            self.sprite = Animator.animate(self.sprite, "character/die", False)
+            number = Helpers.get_sprite_number(self.sprite)
+            if number >= 4:
+                game_manager.game_over()
+
 
         self.play_steps(direction)
 

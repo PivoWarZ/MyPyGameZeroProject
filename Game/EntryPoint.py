@@ -5,14 +5,14 @@ from pgzero.constants import mouse
 from Game.GameManager import game_manager
 from Game.OnCollisionEntered import OnCollisionEntered
 from Game.PlatformManager import PlatforformManager
-from Game.SoundManager import SoundManager, sound_manager
+from Game.SoundManager import sound_manager
 from Game.StartScreen import StartScreen
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 import pgzrun
 from Game.Obstructions import Obstructions
-from Game.Gravity import Gravity
+from Game.Gravity import Gravity, gravity
 from Game.Background import Background
 from Game.Character import Character
 from Game.GameWindow_config import GameWindow
@@ -35,7 +35,7 @@ character = Character(ground_offset)
 obstructions = Obstructions(ground_offset)
 platform_manager = PlatforformManager()
 
-gravity = Gravity(character)
+gravity.init(character)
 
 mover = Mover( sky, ground, background, sun, obstructions, platform_manager )
 
@@ -81,7 +81,7 @@ def draw():
 
 def update(dt):
 
-    if game_manager.game_state == 0:
+    if game_manager.game_state == 0 or game_manager.game_state == 2:
         return
 
     move_input()
@@ -89,9 +89,10 @@ def update(dt):
     if (character.can_move(direction)):
         mover.move(direction)
 
+    character.tick(dt, direction)
+    gravity.init(character)
     gravity_objects = ground.GetGround() + platform_manager.get_platforms_actor()
     gravity.tick(gravity_objects)
-    character.tick(dt, direction)
     obstructions.tick(dt)
     on_collision_entered.tick()
 
